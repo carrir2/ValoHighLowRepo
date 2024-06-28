@@ -1,0 +1,152 @@
+body {
+    font-family: Arial;
+    color: white;
+  }
+  
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+  
+.left {
+  left: 0;
+  background-color: #0E1822;
+}
+
+.right {
+  right: 0;
+  background-color: #40474F;
+}
+
+
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.left img{
+  border: 5px solid #40474F;
+}
+.right img{
+  border: 5px solid #0E1822;
+}
+.centered img {
+  background-image: url(../public/background.png);
+  background-size: cover;
+  background-position: center center;
+  
+  width: 225px;
+  border-radius: 50%;
+}
+
+.centerContainer{
+  padding: 10px;
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  bottom: 50%;
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 50px;
+  height:50px;
+  z-index: 1;
+  text-align: center;
+  background-color: #D8D8D8;
+  border: 3px solid #40474F;
+  border-radius: 50%;
+}
+
+.centerContainer img{
+  width: 50px;
+  height:50px;
+}
+
+.footer {
+  padding: 10px;
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  bottom:0;
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 150px;
+  z-index: 1;
+  text-align: center;
+  background-color: #D8D8D8;
+  border: 3px solid #40474F;
+  color: #2F3337;
+  border-radius: 10% 10% 0% 0%;
+}
+.logo{
+  width: 150px;
+}
+.tourney{
+  width: 100px;
+  opacity: 0.23;
+}
+
+
+.footer h3{
+  font-size: 16px;
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.centered h1 {
+  font-size: 50px;
+}
+
+.centered h2 {
+  font-size: 40px;
+  margin-bottom:0em;
+}
+.centered h3{
+  margin-top:0.5em;
+  margin-bottom: 0em;
+}
+
+.numDisplay{
+  font-size: 50px;
+  margin-bottom: 2.36em;
+}
+
+.game-container {
+    text-align: center;
+    margin: 20px;
+}
+
+.button-container {
+    margin: 0.5em;
+}
+
+.bottomright {
+    position: absolute;
+    bottom: 25px;
+    right: 16px;
+    font-size: 30px;
+    text-align: right;
+  }
+
+  
+
+button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 24px;
+}
+
+p {
+    margin: 10px;
+    font-size: 20px;
+}
