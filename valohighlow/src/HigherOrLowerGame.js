@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './HigherOrLowerGame.css';
-import jsonData from './testdataAmericas.json';
+import jsonData from './data.json';
 
 
 const statSel = ["acs", "kd", "adr", "kpr", "kmax", "kills", "deaths", "assists"];
 
 const HigherOrLowerGame = () => {
+    const [tourney, setTourney] = useState(0);
     const [currentNumber, setCurrentNumber] = useState(0);
     const [currentPlayer, setCurrentPlayer] = useState(0);
     const [nextNumber, setNextNumber] = useState(0);
@@ -16,13 +17,14 @@ const HigherOrLowerGame = () => {
     const [message, setMessage] = useState('');
     const [recent] = useState([]);
     const [isTextVisible, setIsTextVisible] = useState(false);
-    const name = jsonData.name;
+    const [name, setName] = useState(jsonData[0].name);
     const [color, setColor] = useState("#40474F");
+    const [modal, setModal] = useState(false);
 
 
     useEffect(() => {
-        console.log(jsonData.stats[0]['kills']);
-        startGame();
+        console.log(jsonData[tourney].stats[0]['kills']);
+        startGame(0);
         const savedHighScore = localStorage.getItem('highScore');
         if (savedHighScore) {
             setHighScore(parseInt(savedHighScore, 10));
@@ -30,8 +32,9 @@ const HigherOrLowerGame = () => {
     }, []);
 
 
-    const startGame = () => {
-        if (name.includes("Americas")){
+    const startGame = (tNum) => {
+        setName(jsonData[tNum].name);
+        if (jsonData[tNum].name.includes("Americas")){
             setColor("#FF570C");
         } else if (name.includes("Pacific")){
             setColor("#01D2D7");
@@ -41,38 +44,40 @@ const HigherOrLowerGame = () => {
             setColor("#E73056");
         } else if (name.includes("Masters")){
             setColor("#9464F6");
-        } else{
+        } else if (name.includes("LOCK")){
+            setColor("#01A990");
+        }else{
             setColor("#C6B275");
         }
 
         const selectedStat = statSel[Math.floor(Math.random() * statSel.length)];
         setStat(selectedStat);
-
-        const player = Math.floor(Math.random() * jsonData.stats.length);
+        recent.length = 0;;
+        const player = Math.floor(Math.random() * jsonData[tourney].stats.length);
         recent.push(player);
         setCurrentPlayer(player);
-        setCurrentNumber(jsonData.stats[player][selectedStat]);
+        setCurrentNumber(jsonData[tourney].stats[player][selectedStat]);
         generateNextNumber(selectedStat, player);
     };
 
     const generateNextNumber = (selectedStat, currentPlayer) => {
         console.log("-----------------");
         for (const element of recent) {
-            console.log(jsonData.stats[element]["username"]);
+            console.log(jsonData[tourney].stats[element]["username"]);
           }
 
         let nextPlayer;
         do {
-            nextPlayer = Math.floor(Math.random() * jsonData.stats.length);
-        } while (currentPlayer === nextPlayer || recent.includes(nextPlayer) || jsonData.stats[nextPlayer][selectedStat]===null);
+            nextPlayer = Math.floor(Math.random() * jsonData[tourney].stats.length);
+        } while (currentPlayer === nextPlayer || recent.includes(nextPlayer) || jsonData[tourney].stats[nextPlayer][selectedStat]===null);
         
-        if (recent.length > Math.floor(jsonData.stats.length*.1)){
+        if (recent.length > Math.floor(jsonData[tourney].stats.length*.1)){
             recent.shift();
         }
         recent.push(nextPlayer);
         setNextPlayer(nextPlayer);
-        setNextNumber(jsonData.stats[nextPlayer][selectedStat]);
-        console.log(jsonData.stats[nextPlayer][selectedStat])
+        setNextNumber(jsonData[tourney].stats[nextPlayer][selectedStat]);
+        console.log(jsonData[tourney].stats[nextPlayer][selectedStat])
 
     };
 
@@ -111,7 +116,7 @@ const HigherOrLowerGame = () => {
                 
             } while (selectedStat === stat);
             setStat(selectedStat);
-            nextN = jsonData.stats[nextPlayer][selectedStat];
+            nextN = jsonData[tourney].stats[nextPlayer][selectedStat];
             console.log(selectedStat+"--- "+stat);
         }
         setCurrentPlayer(nextPlayer)
@@ -120,13 +125,25 @@ const HigherOrLowerGame = () => {
 
     };
 
+    const openModal = () =>{
+        setModal(true);
+        // setTourney(1);
+        // startGame(1);  
+    };
+
+    const closeModal = () =>{
+        setModal(false);
+        // setTourney(1);
+        // startGame(1);  
+    };
+
     return (
         <div>
 
             <div className="split left">
             <div className="centered">
-                <img src={jsonData.stats[currentPlayer]['image']} alt="current" style={{border: '5px solid'+ color}}></img>
-                <h2>{jsonData.stats[currentPlayer]['team']} {jsonData.stats[currentPlayer]['username']}</h2>
+                <img src={jsonData[tourney].stats[currentPlayer]['image']} alt="current" style={{border: '5px solid'+ color}}></img>
+                <h2>{jsonData[tourney].stats[currentPlayer]['team']} {jsonData[tourney].stats[currentPlayer]['username']}</h2>
                 <h3>has</h3>
                 <p className="numDisplay">{currentNumber} {stat.toUpperCase()}</p>
             </div>
@@ -134,8 +151,8 @@ const HigherOrLowerGame = () => {
 
             <div className="split right" style={{backgroundColor: color}}>
             <div className="centered">
-            <img src={jsonData.stats[nextPlayer]['image']} alt="next"></img>
-                <h2>{jsonData.stats[nextPlayer]['team']} {jsonData.stats[nextPlayer]['username']}</h2>
+            <img src={jsonData[tourney].stats[nextPlayer]['image']} alt="next"></img>
+                <h2>{jsonData[tourney].stats[nextPlayer]['team']} {jsonData[tourney].stats[nextPlayer]['username']}</h2>
                 <h3>has</h3>
                 
                 {isTextVisible ? (
@@ -150,7 +167,7 @@ const HigherOrLowerGame = () => {
                             <button onClick={() => revealClick('higher')}>Higher ▲</button><br></br>
                             <button onClick={() => revealClick('lower')}>Lower ▼</button>
                         </div>
-                        <p style={{fontSize: 30}}>{stat.toUpperCase()} than {jsonData.stats[currentPlayer]['username']}</p>
+                        <p style={{fontSize: 30}}>{stat.toUpperCase()} than {jsonData[tourney].stats[currentPlayer]['username']}</p>
                     </div>
                 )}
 
@@ -163,10 +180,25 @@ const HigherOrLowerGame = () => {
                 </div>
             
             </div>
+            
+        <div id="myModal" class="modal"style={{display: modal ? 'block' : 'none'}}>
+
+            <div class="modal-content" >
+                <span class="close" onClick={() => closeModal()}>&times;</span>
+                {jsonData.map((trny, index) => (
+                    <div key={index} className="trny-item">
+                    <img src={trny.logo} alt={trny.name} />
+                    <p>{trny.name}</p>
+                    </div>
+                ))}
+            </div>
+
+        </div>
+
             <div className ="footer">
                 <img src={'/logo.png'} alt="higherlower" className="logo"/>
-                <img src={jsonData.logo} alt="tourney logo" className="tourney"/>              
-                <h3>{jsonData.name}</h3>
+                <img src={jsonData[tourney].logo} alt="tourney logo" className="tourney"/>              
+                <h3><a onClick={() => openModal()}>{jsonData[tourney].name}</a></h3>
             </div>
 
 
@@ -175,7 +207,7 @@ const HigherOrLowerGame = () => {
             </div>
             
 
-            <div className="centerContainer" style={{backgroundColor: '#1AEA6F', display: isTextVisible && message==='Correct' ? 'block' : 'none'}} display>
+            <div className="centerContainer" style={{backgroundColor: '#1AEA6F', display: isTextVisible && message==='Correct' ? 'block' : 'none'}}>
                 <img src={'/crct.png'} alt="vs"/>
             </div>
             
