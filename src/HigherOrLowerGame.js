@@ -219,24 +219,24 @@ const HigherOrLowerGame = () => {
         </div>
 
             <div className ="footer">
-                <img src={'/logo.png'} alt="higherlower" className="logo"/>
+                <img src={'logo.png'} alt="higherlower" className="logo"/>
                 <img src={jsonData[tourney].logo} alt="tourney logo" className="tourney"/>              
                 <h3><a className="hvr-shrink" onClick={() => openModal()} href="#">{jsonData[tourney].name}</a></h3>
             </div>
 
 
             <div className="centerContainer" style={{backgroundColor: '#D8D8D8', display: !isTextVisible ? 'block' : 'none'}}>
-                <img src={'/versus.png'} alt="vs"/>
+                <img src={'versus.png'} alt="vs"/>
             </div>
             
 
             <div className="centerContainer" style={{backgroundColor: '#1AEA6F', display: isTextVisible && message==='Correct' ? 'block' : 'none'}}>
-                <img src={'/crct.png'} alt="vs"/>
+                <img src={'crct.png'} alt="vs"/>
             </div>
             
             
             <div className="centerContainer" style={{backgroundColor: '#E88282', display: isTextVisible && message==='Wrong' ? 'block' : 'none'}} >
-                <img src={'/x.png'} alt="vs"/>
+                <img src={'x.png'} alt="vs"/>
             </div>
             
         </div>
