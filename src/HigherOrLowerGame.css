@@ -226,6 +226,21 @@ body {
   transform: scale(0.9);
 }
 
+
+
+.blinking {
+  animation: blink-animation 0.5s step-start infinite;
+}
+
+@keyframes blink-animation {
+  50% {
+    color: #CFFF04;
+  }
+  100% {
+    color: white;
+  }
+}
+
 button {
     margin: 5px;
     padding: 10px 20px;

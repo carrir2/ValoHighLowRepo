@@ -21,7 +21,7 @@ const HigherOrLowerGame = () => {
     const [color, setColor] = useState("#40474F");
     const [textColor, setTextColor] = useState("#FFFFFF");
     const [modal, setModal] = useState(false);
-
+    const [isBlinking, setIsBlinking] = useState(false);
 
     useEffect(() => {
         
@@ -120,9 +120,32 @@ const HigherOrLowerGame = () => {
         }
         
         setTimeout(() => {
-            handleGuess(upScore)
+            upScore = handleGuess(upScore)
             setIsTextVisible(false);
         }, 3000);
+        console.log("SYSTEM SCORE: "+ upScore+ isTextVisible);
+
+
+        setTimeout(() => {
+            if ((upScore) % 5===0 && upScore !==0){
+                setIsBlinking(true);
+                console.log("SYSTEM SCORED: "+ upScore+ isTextVisible);
+                const blinkInterval = setInterval(() => {
+                    setIsBlinking(prev => !prev);
+                  }, 500);
+              
+                setTimeout(() => {
+                    clearInterval(blinkInterval);
+                    setIsBlinking(false);
+                }, 4000);
+        
+            }
+        }, 3500);
+        
+
+
+
+
     }
 
     const handleGuess = (upScore) => {
@@ -138,11 +161,13 @@ const HigherOrLowerGame = () => {
             setStat(selectedStat);
             nextN = jsonData[tourney].stats[nextPlayer][selectedStat];
             console.log(selectedStat+"--- "+stat);
+            
+            
         }
         setCurrentPlayer(nextPlayer)
         setCurrentNumber(nextN);
         generateNextNumber(selectedStat, nextPlayer, tourney);
-
+        return upScore;
     };
 
     const openModal = () =>{
@@ -168,7 +193,7 @@ const HigherOrLowerGame = () => {
                 <img src={jsonData[tourney].stats[currentPlayer]['image']} alt="current" style={{border: '5px solid'+ color}}></img>
                 <h2>{jsonData[tourney].stats[currentPlayer]['team']} {jsonData[tourney].stats[currentPlayer]['username']}</h2>
                 <h3>has</h3>
-                <p className="numDisplay">{currentNumber} {stat.toUpperCase()}</p>
+                <p className="numDisplay">{currentNumber} <span className={`${isBlinking ? 'blinking' : ''}`}>{stat.toUpperCase()}</span></p>
             </div>
             </div>
 
@@ -190,7 +215,7 @@ const HigherOrLowerGame = () => {
                             <button className="hvr-shrink" onClick={() => revealClick('higher')}>Higher ▲</button><br></br>
                             <button className="hvr-shrink" onClick={() => revealClick('lower')}>Lower ▼</button>
                         </div>
-                        <p style={{fontSize: 30}}>{stat.toUpperCase()} than {jsonData[tourney].stats[currentPlayer]['username']}</p>
+                        <p style={{fontSize: 30}}><span className={`${isBlinking ? 'blinking' : ''}`}>{stat.toUpperCase()}</span> than {jsonData[tourney].stats[currentPlayer]['username']}</p>
                     </div>
                 )}
 
