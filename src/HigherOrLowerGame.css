@@ -234,7 +234,7 @@ body {
 
 @keyframes blink-animation {
   50% {
-    color: #CFFF04;
+    color: #4863A0;
   }
   100% {
     color: white;
