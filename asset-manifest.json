@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/ValoHighLowRepo/static/css/main.32076306.css",
+    "main.css": "/ValoHighLowRepo/static/css/main.76187d14.css",
     "main.js": "/ValoHighLowRepo/static/js/main.7891c44b.js",
     "static/js/453.b9cc10db.chunk.js": "/ValoHighLowRepo/static/js/453.b9cc10db.chunk.js",
     "static/media/background.png": "/ValoHighLowRepo/static/media/background.57aecbd6792a72b16b02.png",
     "index.html": "/ValoHighLowRepo/index.html",
-    "main.32076306.css.map": "/ValoHighLowRepo/static/css/main.32076306.css.map",
+    "main.76187d14.css.map": "/ValoHighLowRepo/static/css/main.76187d14.css.map",
     "main.7891c44b.js.map": "/ValoHighLowRepo/static/js/main.7891c44b.js.map",
     "453.b9cc10db.chunk.js.map": "/ValoHighLowRepo/static/js/453.b9cc10db.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.32076306.css",
+    "static/css/main.76187d14.css",
     "static/js/main.7891c44b.js"
   ]
 }
